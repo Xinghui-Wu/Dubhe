@@ -40,3 +40,118 @@ ListNode* selection_sort(ListNode* head)
 
     return dummy->next;
 }
+
+
+ListNode* merge_sort(ListNode* head)
+{
+    if (head == nullptr || head->next == nullptr)
+    {
+        return head;
+    }
+
+    ListNode* current = head;
+
+    // Count the number of nodes in the list.
+    int length = 0;
+
+    while (current != nullptr)
+    {
+        length++;
+        current = current->next;
+    }
+
+    ListNode* dummy = new ListNode(0, head);
+    // The head of the first splitted sublist.
+    ListNode* left;
+    // The head of the second splitted sublist.
+    ListNode* right;
+    // The tail of the sorted sublist.
+    ListNode* tail;
+
+    // Iteratively split the list into sublists of size 1, 2, 4, 8 and so on until the length.
+    for (int size = 1; size < length; size <<= 1)
+    {
+        tail = dummy;
+        current = dummy->next;
+
+        while (current != nullptr)
+        {
+            left = current;
+            right = split(left, size);
+            current = split(right, size);
+            tail = merge(left, right, tail);
+        }
+    }
+
+    return dummy->next;
+}
+
+
+/**
+ * Divide the linked list into two lists.
+ * The first list contains first n nodes.
+ * Return the head of the second list.
+ */
+ListNode* split(ListNode* head, int size)
+{
+    for (int i = 1; i < size && head != nullptr; i++)
+    {
+        head = head->next;
+    }
+
+    if (head == nullptr)
+    {
+        return nullptr;
+    }
+
+    ListNode* second = head->next;
+    head->next = nullptr;
+
+    return second;
+}
+
+
+/**
+ * Merge two sorted lists.
+ * Append the merged sorted linked list to the head node.
+ * Return the tail of the merged sorted linked list.
+ */
+ListNode* merge(ListNode* l1, ListNode* l2, ListNode* head)
+{
+    ListNode* current = head;
+
+    // Merge the two input sorted linked lists while neither of l1 and l2 is nullptr.
+    while (l1 != nullptr && l2 != nullptr)
+    {
+        if (l1->val <= l2->val)
+        {
+            current->next = l1;
+            l1 = l1->next;
+        }
+        else
+        {
+            current->next = l2;
+            l2 = l2->next;
+        }
+
+        current = current->next;
+    }
+
+    // If either l1 or l2 is not nullptr now, connect it to the current pointer.
+    if (l1 != nullptr)
+    {
+        current->next = l1;
+    }
+    else if (l2 != nullptr)
+    {
+        current->next = l2;
+    }
+
+    // Find the tail pointer.
+    while (current->next != nullptr)
+    {
+        current = current->next;
+    }
+
+    return current;
+}
