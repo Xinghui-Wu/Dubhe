@@ -1,6 +1,9 @@
-#include "list_node.h"
+#include "sort.h"
 
 
+/**
+ * Selection sort for a linked list.
+ */
 ListNode* selection_sort(ListNode* head)
 {
     ListNode* dummy = new ListNode(-1, head);
@@ -42,6 +45,9 @@ ListNode* selection_sort(ListNode* head)
 }
 
 
+/**
+ * Merge sort for a linked list.
+ */
 ListNode* merge_sort(ListNode* head)
 {
     if (head == nullptr || head->next == nullptr)
