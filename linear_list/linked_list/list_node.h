@@ -13,10 +13,14 @@ struct ListNode
     ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
 
-// Create a link list and return its head node.
+/**
+ * Create a link list and return its head node.
+ */
 ListNode* create_list(int val_list[], int length);
 
-// Output the values of the given link list.
+/**
+ * Output the values of the given link list.
+ */
 void output_list(ListNode* list);
 
 #endif
