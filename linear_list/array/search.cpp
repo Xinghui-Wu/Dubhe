@@ -7,26 +7,26 @@
 int binary_search(std::vector<int>& nums, int target)
 {
     int left = 0;
-	int right = nums.size() - 1;
+    int right = nums.size() - 1;
     int mid;
 
     while (left <= right)
     {
-		mid = (left + right) / 2;
-
-		if (nums[mid] < target)
+        mid = (left + right) / 2;
+        
+        if (nums[mid] < target)
         {
             left = mid + 1;
         }
-		else if (nums[mid] > target)
+        else if (nums[mid] > target)
         {
-			right = mid - 1;
+            right = mid - 1;
         }
-		else
+        else
         {
-			return mid;
+            return mid;
         }
-	}
-
+    }
+    
     return -1;
 }
