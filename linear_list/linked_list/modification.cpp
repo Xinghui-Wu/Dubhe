@@ -70,6 +70,35 @@ ListNode* merge_k_lists(std::vector<ListNode*>& lists)
 
 
 /**
+ * Reverse Linked list.
+ * Given the head of a singly linked list, reverse the list, and return the reversed list.
+ */
+ListNode* reverse_list(ListNode* head)
+{
+    if (head == nullptr)
+    {
+        return head;
+    }
+
+    ListNode* current = head;
+    ListNode* next = current->next;
+    ListNode* temp;
+        
+    while (next != nullptr)
+    {
+        temp = next->next;
+        next->next = current;
+        current = next;
+        next = temp;
+    }
+
+    head->next = nullptr;
+        
+    return current;
+}
+
+
+/**
  * Remove the n-th node from end of list.
  * Given the head of a linked list, remove the nth node from the end of the list and return its head.
  */

@@ -19,6 +19,12 @@ ListNode* merge_two_lists(ListNode* l1, ListNode* l2);
 ListNode* merge_k_lists(std::vector<ListNode*>& lists);
 
 /**
+ * Reverse Linked list.
+ * Given the head of a singly linked list, reverse the list, and return the reversed list.
+ */
+ListNode* reverse_list(ListNode* head);
+
+/**
  * Remove the n-th node from end of list.
  * Given the head of a linked list, remove the nth node from the end of the list and return its head.
  */
