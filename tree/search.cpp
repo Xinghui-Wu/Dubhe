@@ -2,6 +2,72 @@
 
 
 /**
+ * Kth smallest element in a BST.
+ * Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
+ */
+int get_kth_smallest(TreeNode* root, int k)
+{
+    std::stack<TreeNode*> tree_node_stack;
+
+    TreeNode* current = root;
+
+    // Use a DFS stack to do the binary tree inorder traversal.
+    // The inorder traversal of a BST should be a sorted list.
+    while (current != nullptr || !tree_node_stack.empty())
+    {
+        while (current != nullptr)
+        {
+            tree_node_stack.push(current);
+            current = current->left;
+        }
+            
+        current = tree_node_stack.top();
+        tree_node_stack.pop();
+
+        if (k-- == 1)
+        {
+            return current->val;
+        }
+            
+        current = current->right;
+    }
+
+    return 0;
+}
+
+
+/**
+ * Lowest common ancestor of a binary tree.
+ * Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+ */
+TreeNode* get_lowest_common_ancestor(TreeNode* root, TreeNode* p, TreeNode* q)
+{
+    // If either p or q is found, return it.
+    if (root == nullptr || root == p || root == q)
+    {
+        return root;
+    }
+
+    // Search the left and right subtrees for p and q.
+    TreeNode* left = get_lowest_common_ancestor(root->left, p, q);
+    TreeNode* right = get_lowest_common_ancestor(root->right, p, q);
+
+    if (left == nullptr)
+    {
+        return right;
+    }
+    else if (right == nullptr)
+    {
+        return left;
+    }
+    else
+    {
+        return root;
+    }
+}
+
+
+/**
  * Path sum.
  * Given the root of a binary tree and an integer target sum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals target sum.
  */
@@ -104,4 +170,52 @@ void find_path(TreeNode* current, int target_sum, std::vector<std::vector<int>>&
         find_path(current->right, target_sum - current->right->val, path_list, path);
         path.pop_back();
     }
+}
+
+
+/**
+ * Path sum and its amount.
+ * Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.
+ * The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).
+ */
+int count_path_sum(TreeNode* root, int target_sum)
+{
+    std::unordered_map<long, int> prefix_sum;
+    prefix_sum[0] = 1;
+
+    int num_paths = dfs_path_sum(root, prefix_sum, 0, target_sum);
+
+    return num_paths;
+}
+
+
+/**
+ * Traverse the binary tree with DFS recursively.
+ * Save the prefix sum of the path starting from the root node and ending at the current node.
+ * Based on the current and historical prefix sum records, count the number of paths.
+ */
+int dfs_path_sum(TreeNode* current, std::unordered_map<long, int>& prefix_sum, long current_sum, int target_sum)
+{
+    if (current == nullptr)
+    {
+        return 0;
+    }
+
+    // Update the prefix sum of the current node.
+    current_sum += current->val;
+
+    // Use the difference between curren prefix sum and target sum to count the paths ending at the current node.
+    int num_paths = prefix_sum[current_sum - target_sum];
+
+    // Update the hashmap with the current prefix sum.
+    prefix_sum[current_sum]++;
+
+    // Search the left and right subtrees.
+    num_paths += dfs_path_sum(current->left, prefix_sum, current_sum, target_sum);
+    num_paths += dfs_path_sum(current->right, prefix_sum, current_sum, target_sum);
+        
+    // Backtrack to the parent node.
+    prefix_sum[current_sum]--;
+
+    return num_paths;
 }
