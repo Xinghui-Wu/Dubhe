@@ -20,6 +20,6 @@ std::vector<std::vector<int>> path_sum(TreeNode* root, int target_sum);
  * Traverse the binary tree with DFS recursively.
  * Backtrack to the previous status when one path is found.
  */
-void find_path(TreeNode* current, int targetSum, std::vector<std::vector<int>>& path_list, std::vector<int>& path);
+void find_path(TreeNode* current, int target_sum, std::vector<std::vector<int>>& path_list, std::vector<int>& path);
 
 #endif
