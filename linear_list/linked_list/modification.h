@@ -25,6 +25,12 @@ ListNode* merge_k_lists(std::vector<ListNode*>& lists);
 ListNode* reverse_list(ListNode* head);
 
 /**
+ * Remove linked list elements.
+ * Given the head of a linked list and an integer val, remove all the nodes of the linked list that has node.val == val, and return the new head.
+ */
+ListNode* remove_elements(ListNode* head, int val);
+
+/**
  * Remove the n-th node from end of list.
  * Given the head of a linked list, remove the nth node from the end of the list and return its head.
  */

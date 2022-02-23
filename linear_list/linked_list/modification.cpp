@@ -99,6 +99,31 @@ ListNode* reverse_list(ListNode* head)
 
 
 /**
+ * Remove linked list elements.
+ * Given the head of a linked list and an integer val, remove all the nodes of the linked list that has node.val == val, and return the new head.
+ */
+ListNode* remove_elements(ListNode* head, int val)
+{
+    ListNode* dummy = new ListNode(0, head);
+    ListNode* current = dummy;
+
+    while (current->next != nullptr)
+    {
+        if (current->next->val == val)
+        {
+            current->next = current->next->next;
+        }
+        else
+        {
+            current = current->next;
+        }
+    }
+        
+    return dummy->next;
+}
+
+
+/**
  * Remove the n-th node from end of list.
  * Given the head of a linked list, remove the nth node from the end of the list and return its head.
  */
