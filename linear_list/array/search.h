@@ -2,6 +2,7 @@
 #define SEARCH_H
 
 #include <vector>
+#include <unordered_set>
 
 /**
  * Find the element with the target value in a sorted array using binary search.
@@ -21,5 +22,17 @@ int get_majority_element(std::vector<int>& nums);
  * There is only one repeated number in nums, return this repeated number.
  */
 int find_duplicate(std::vector<int>& nums);
+
+/**
+ * Find the median of two sorted arrays.
+ * Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+ */
+double find_median_sorted_arrays(std::vector<int>& nums1, std::vector<int>& nums2);
+
+/**
+ * Get intersection of two arrays.
+ * Given two integer arrays nums1 and nums2, return an array of their intersection.
+ */
+std::vector<int> get_intersection(std::vector<int>& nums1, std::vector<int>& nums2);
 
 #endif

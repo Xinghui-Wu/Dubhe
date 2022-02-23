@@ -91,3 +91,95 @@ int find_duplicate(std::vector<int>& nums)
 
     return slow;
 }
+
+
+/**
+ * Find the median of two sorted arrays.
+ * Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+ */
+double find_median_sorted_arrays(std::vector<int>& nums1, std::vector<int>& nums2)
+{
+    int m = nums1.size();
+    int n = nums2.size();
+
+    // Make sure that the number of elements in the first vector is not larger than that in the second one.
+    if (m > n)
+    {
+        return find_median_sorted_arrays(nums2, nums1);
+    }
+
+    // Divide a set into two subsets equally, while the maximum of the first subset is not larger than the minimum of the second subset.
+    // Suppose the first subset has nums1[0] to nums1[i - 1] and nums2[0] to nums2[j - 1] and the second subset has nums1[i] to nums1[m - 1] and nums2[j] to nums2[n - 1].
+    // When m + n is even, i + j = m - i + n - j, and when m + n is odd, i + j = m - i + n - j + 1.
+    // So we can derive i + j = (m + n + 1) / 2, and use i to represent j that j = (m + n + 1) / 2 - i.
+    // We should find i so that nums2[j - 1] <= nums1[i] and nums1[i - 1] <= nums2[j].
+    // It is equivalent to find the largest i that nums1[i - 1] <= nums2[j] with binary search.
+    int i, j;
+    int nums1_i_1, nums1_i, nums2_j_1, nums2_j;
+
+    int left = 0;
+    int right = m;
+
+    int left_max;
+    int right_min;
+
+    while (left <= right)
+    {
+        i = (left + right) / 2;
+        j = (m + n + 1) / 2 - i;
+
+        nums1_i_1 = (i == 0 ? INT32_MIN : nums1[i - 1]);
+        nums1_i = (i == m ? INT32_MAX : nums1[i]);
+        nums2_j_1 = (j == 0 ? INT32_MIN : nums2[j - 1]);
+        nums2_j = (j == n ? INT32_MAX : nums2[j]);
+
+        if (nums1_i_1 <= nums2_j)
+        {
+            left_max = std::max(nums1_i_1, nums2_j_1);
+            right_min = std::min(nums1_i, nums2_j);
+
+            left = i + 1;
+        }
+        else
+        {
+            right = i - 1;
+        }
+    }
+        
+    if ((m + n) >> 1 << 1 == (m + n))
+    {
+        return (double) (left_max + right_min) / 2;
+    }
+    else
+    {
+        return (double) left_max;
+    }
+}
+
+
+/**
+ * Get intersection of two arrays.
+ * Given two integer arrays nums1 and nums2, return an array of their intersection.
+ */
+std::vector<int> get_intersection(std::vector<int>& nums1, std::vector<int>& nums2)
+{
+    if (nums1.size() > nums2.size())
+    {
+        return get_intersection(nums2, nums1);
+    }
+
+    std::unordered_set<int> nums_set(nums1.begin(), nums1.end());
+    std::unordered_set<int> intersection_set;
+        
+    for (size_t i = 0; i < nums2.size(); i++)
+    {
+        if (nums_set.count(nums2[i]) > 0)
+        {
+            intersection_set.insert(nums2[i]);
+        }
+    }
+
+    std::vector<int> nums_intersection(intersection_set.begin(), intersection_set.end());
+
+    return nums_intersection;
+}
