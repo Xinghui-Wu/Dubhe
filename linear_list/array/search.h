@@ -2,7 +2,9 @@
 #define SEARCH_H
 
 #include <vector>
+#include <queue>
 #include <unordered_set>
+#include <unordered_map>
 
 /**
  * Find the element with the target value in a sorted array using binary search.
@@ -22,6 +24,12 @@ int get_majority_element(std::vector<int>& nums);
  * There is only one repeated number in nums, return this repeated number.
  */
 int find_duplicate(std::vector<int>& nums);
+
+/**
+ * Top k frequent elements.
+ * Given an integer array nums and an integer k, return the k most frequent elements.
+ */
+std::vector<int> find_top_k_frequent_elements(std::vector<int>& nums, int k);
 
 /**
  * Find the median of two sorted arrays.

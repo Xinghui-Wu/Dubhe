@@ -94,6 +94,53 @@ int find_duplicate(std::vector<int>& nums)
 
 
 /**
+ * Top k frequent elements.
+ * Given an integer array nums and an integer k, return the k most frequent elements.
+ */
+std::vector<int> find_top_k_frequent_elements(std::vector<int>& nums, int k)
+{
+    std::vector<int> top_k_frequent_nums(k);
+
+    // Count the occurrences of each number in the vector.
+    std::unordered_map<int, int> count_map;
+
+    for (size_t i = 0; i < nums.size(); i++)
+    {
+        count_map[nums[i]]++;
+    }
+
+    // Use priority queue (min heap) to sort the top k frequent numbers.
+    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, decltype(&cmp)> frequency_queue(cmp);
+        
+    for (auto& count: count_map)
+    {
+        if (frequency_queue.size() < k)
+        {
+            frequency_queue.emplace(count.first, count.second);
+        }
+        else if (frequency_queue.top().second < count.second)
+        {
+            frequency_queue.pop();
+            frequency_queue.emplace(count.first, count.second);
+        }
+    }
+
+    for (int i = k - 1; i >= 0; i--)
+    {
+        top_k_frequent_nums[i] = frequency_queue.top().first;
+        frequency_queue.pop();
+    }
+        
+    return top_k_frequent_nums;
+}
+
+bool cmp(std::pair<int, int>& m, std::pair<int, int>& n)
+{
+    return m.second > n.second;
+}
+
+
+/**
  * Find the median of two sorted arrays.
  * Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
  */
